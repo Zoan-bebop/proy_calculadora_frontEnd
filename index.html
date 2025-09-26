@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Restas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculadora {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="number"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .operacion {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .btn-calcular {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .btn-calcular:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(238, 90, 36, 0.4);
+            background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+        }
+
+        .btn-calcular:active {
+            transform: translateY(-1px);
+        }
+
+        .resultado {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .resultado h3 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .valor-resultado {
+            color: #ffeb3b;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-limpiar {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-limpiar:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .historial {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .historial h3 {
+            color: white;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .historial-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            color: white;
+            font-family: monospace;
+        }
+
+        @media (max-width: 480px) {
+            .calculadora {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculadora">
+        <h1>🧮 Calculadora de Restas</h1>
+        
+        <div class="input-group">
+            <label for="numero1">Primer número (minuendo):</label>
+            <input type="number" id="numero1" placeholder="Ingresa el primer número" step="any">
+        </div>
+
+        <div class="operacion">
+            <span>−</span>
+        </div>
+
+        <div class="input-group">
+            <label for="numero2">Segundo número (sustraendo):</label>
+            <input type="number" id="numero2" placeholder="Ingresa el segundo número" step="any">
+        </div>
+
+        <button class="btn-calcular" onclick="calcularResta()">Calcular Resta</button>
+
+        <div class="resultado" id="resultado">
+            <p style="color: rgba(255,255,255,0.7);">El resultado aparecerá aquí</p>
+        </div>
+
+        <button class="btn-limpiar" onclick="limpiarCalculadora()">Limpiar</button>
+
+        <div class="historial">
+            <h3>📝 Historial de operaciones</h3>
+            <div id="historial-lista">
+                <p style="color: rgba(255,255,255,0.5); text-align: center; font-style: italic;">No hay operaciones aún</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let historial = [];
+
+        function calcularResta() {
+            // Obtener los valores de los inputs
+            const numero1 = parseFloat(document.getElementById('numero1').value);
+            const numero2 = parseFloat(document.getElementById('numero2').value);
+            
+            // Validar que los números sean válidos
+            if (isNaN(numero1) || isNaN(numero2)) {
+                mostrarError('Por favor, ingresa números válidos en ambos campos');
+                return;
+            }
+            
+            // Calcular la resta
+            const resultado = numero1 - numero2;
+            
+            // Mostrar el resultado
+            mostrarResultado(numero1, numero2, resultado);
+            
+            // Agregar al historial
+            agregarAlHistorial(numero1, numero2, resultado);
+        }
+
+        function mostrarResultado(num1, num2, resultado) {
+            const divResultado = document.getElementById('resultado');
+            
+            divResultado.innerHTML = `
+                <div>
+                    <h3>Resultado:</h3>
+                    <div class="valor-resultado">${resultado}</div>
+                    <p style="color: rgba(255,255,255,0.8); margin-top: 10px; font-size: 0.9rem;">
+                        ${num1} - ${num2} = ${resultado}
+                    </p>
+                </div>
+            `;
+        }
+
+        function mostrarError(mensaje) {
+            const divResultado = document.getElementById('resultado');
+            divResultado.innerHTML = `
+                <div style="color: #ff6b6b;">
+                    <h3>⚠️ Error</h3>
+                    <p>${mensaje}</p>
+                </div>
+            `;
+        }
+
+        function limpiarCalculadora() {
+            document.getElementById('numero1').value = '';
+            document.getElementById('numero2').value = '';
+            document.getElementById('resultado').innerHTML = '<p style="color: rgba(255,255,255,0.7);">El resultado aparecerá aquí</p>';
+            
+            // Focus en el primer input
+            document.getElementById('numero1').focus();
+        }
+
+        function agregarAlHistorial(num1, num2, resultado) {
+            const operacion = {
+                num1: num1,
+                num2: num2,
+                resultado: resultado,
+                fecha: new Date().toLocaleTimeString()
+            };
+            
+            historial.unshift(operacion); // Agregar al inicio del array
+            
+            // Mantener solo las últimas 5 operaciones
+            if (historial.length > 5) {
+                historial.pop();
+            }
+            
+            actualizarHistorial();
+        }
+
+        function actualizarHistorial() {
+            const historialLista = document.getElementById('historial-lista');
+            
+            if (historial.length === 0) {
+                historialLista.innerHTML = '<p style="color: rgba(255,255,255,0.5); text-align: center; font-style: italic;">No hay operaciones aún</p>';
+                return;
+            }
+            
+            let html = '';
+            historial.forEach((op, index) => {
+                html += `
+                    <div class="historial-item">
+                        ${op.num1} - ${op.num2} = ${op.resultado}
+                        <span style="float: right; font-size: 0.8rem; opacity: 0.7;">${op.fecha}</span>
+                    </div>
+                `;
+            });
+            
+            historialLista.innerHTML = html;
+        }
+
+        // Permitir calcular presionando Enter
+        document.getElementById('numero1').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('numero2').focus();
+            }
+        });
+
+        document.getElementById('numero2').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calcularResta();
+            }
+        });
+
+        // Auto-focus en el primer input al cargar la página
+        window.onload = function() {
+            document.getElementById('numero1').focus();
+        };
+    </script>
+</body>
+</html>
