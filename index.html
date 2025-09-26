@@ -7,5 +7,87 @@
 </head>
 <body>
     --Empezar a programar aqui--
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #333;
+    }
+    .box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 10px;
+    }
+    input {
+      padding: 8px;
+      width: 200px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #0077ff;
+      color: white;
+    }
+    p {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #444;
+    }
+  </style>
+
+  <h1>Conversor Binario ↔ Decimal</h1>
+
+  <div class="box">
+    <h2>Decimal a Binario</h2>
+    <input type="number" id="decimalInput" placeholder="Ingresa número decimal">
+    <br>
+    <button onclick="decimalABinario()">Convertir</button>
+    <p id="binarioResultado"></p>
+  </div>
+
+  <div class="box">
+    <h2>Binario a Decimal</h2>
+    <input type="text" id="binarioInput" placeholder="Ingresa número binario">
+    <br>
+    <button onclick="binarioADecimal()">Convertir</button>
+    <p id="decimalResultado"></p>
+  </div>
+
+  <script>
+    function decimalABinario() {
+      let numero = document.getElementById("decimalInput").value;
+      if(numero === "") {
+        document.getElementById("binarioResultado").innerText = "Por favor ingresa un número.";
+        return;
+      }
+      let binario = parseInt(numero).toString(2);
+      document.getElementById("binarioResultado").innerText = "Binario: " + binario;
+    }
+
+    function binarioADecimal() {
+      let binario = document.getElementById("binarioInput").value;
+      if(!/^[01]+$/.test(binario)) {
+        document.getElementById("decimalResultado").innerText = "Ingresa un número binario válido (solo 0 y 1).";
+        return;
+      }
+      let decimal = parseInt(binario, 2);
+      document.getElementById("decimalResultado").innerText = "Decimal: " + decimal;
+    }
+  </script>
+
 </body>
 </html>
