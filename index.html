@@ -4,8 +4,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CALCULADORA_CIENTIFICA</title>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: crimson;
+            color: white;
+            font-family: sans-serif;
+            margin: 0; /* Añadido para eliminar el margen predeterminado del body */
+        }
+
+        .main {
+            padding: 20px; /* Ajustado el padding para mejor visualización */
+            text-align: center;
+            border: 2px solid white; /* Opcional: para enmarcar la calculadora */
+            border-radius: 10px;
+        }
+
+        /* Corregido: La propiedad display: flex en el input no era necesaria
+           y el diseño que buscabas parece ser para los inputs dentro de .inputs */
+        .inputs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Estilos para los campos de número */
+        .inputs input {
+            border: none;
+            border-radius: 5px;
+            padding: 10px; /* Reducido el padding para hacerlo más manejable */
+            width: 80%; /* Añadido un ancho */
+            max-width: 300px;
+            outline: none;
+            margin-bottom: 10px;
+            text-align: center;
+            box-sizing: border-box; /* Importante para que el padding y el borde se incluyan en el width */
+            font-size: 16px;
+        }
+
+        #selectOp {
+            margin-bottom: 10px;
+            padding: 10px;
+            outline: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #btn {
+            border: none;
+            background: transparent;
+            color: white;
+            padding: 10px 20px;
+            border: 2px solid white;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+            border-radius: 5px;
+        }
+
+        #btn:hover {
+            background: white;
+            color: crimson;
+        }
+
+        .result {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    --Empezar a programar aqui--
+    <div class="main">
+        <div class="inputs">
+            <h1 class="result">Result</h1>
+            <select id="selectOp">
+                <option value="plus">+</option>
+                <option value="min">-</option>
+                <option value="dev">/</option>
+                <option value="multi">*</option>
+            </select>
+            <input type="number" class="num1" placeholder="Number 1" />
+            <input type="number" class="num2" placeholder="Number 2" />
+        </div>
+        <div class="submitBtn">
+            <button id="btn">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("btn").addEventListener("click", function () {
+            // Se usa Number() para asegurarse de que las cadenas se traten como números en las operaciones
+            let num1 = document.querySelector(".num1").value;
+            let num2 = document.querySelector(".num2").value;
+            let resultElement = document.querySelector(".result"); // Cambiado el nombre de la variable para evitar conflicto con 'result' en el switch
+            let operator = document.getElementById("selectOp").value;
+
+            // Validación básica para evitar la división por cero y campos vacíos
+            if (num1 === "" || num2 === "") {
+                resultElement.innerHTML = "Please enter both numbers";
+                return;
+            }
+
+            let numA = Number(num1);
+            let numB = Number(num2);
+            let calculationResult = "Error"; // Inicialización por defecto
+
+            switch (operator) {
+                case "plus":
+                    calculationResult = numA + numB;
+                    break;
+                case "min":
+                    calculationResult = numA - numB;
+                    break;
+                case "dev":
+                    if (numB === 0) {
+                        calculationResult = "Cannot divide by zero";
+                    } else {
+                        calculationResult = numA / numB;
+                    }
+                    break;
+                case "multi":
+                    calculationResult = numA * numB;
+                    break;
+                default:
+                    calculationResult = "Invalid operator";
+            }
+
+            resultElement.innerHTML = calculationResult;
+        });
+    </script>
 </body>
 </html>
